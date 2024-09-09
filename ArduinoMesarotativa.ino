@@ -30,10 +30,20 @@ void setup() {
 }
 
 void loop() {
-//if (digitalRead(enable)==HIGH) //si esta habilitado el motor (se presiona un botón)
-  
-  //la dirección se detea con otro botón
-  //velocidad=round(analogRead(analog)/2); //leo el potenciometro
+  //intento leer algún mensaje desde el maestro
+   if (tiny85.available() > 0) 
+   {
+    String mensaje = tiny85.readStringUntil('\n'); // Leeo el mensaje completo
+    int valores[4]; //array para guardar los valores de la cadena 
+    int index = 0; //indice que uso para el ciclo
+    char* token = strtok(mensaje.c_str(), ",");
+    while (token != NULL && index < 4) 
+    {
+    valores[index] = atoi(token); //guardo el token en el array
+    token = strtok(NULL, ",");
+    index++;
+    }
+
   delayHigh=1000; //delay de alta en uSegundos
   delayLow=1000;  //delay de baja en uSegundos
   pulso=500; //pulso en miliSegundos
