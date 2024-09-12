@@ -30,23 +30,31 @@ void setup() {
 }
 
 void loop() {
-  //intento leer algún mensaje desde el maestro
-   if (tiny85.available() > 0) 
-   {
-    String mensaje = tiny85.readStringUntil('\n'); // Leeo el mensaje completo
-    int valores[4]; //array para guardar los valores de la cadena 
-    int index = 0; //indice que uso para el ciclo
-    char* token = strtok(mensaje.c_str(), ",");
-    while (token != NULL && index < 4) 
+//si recibo un mensaje por serial (9600 baud) apago el motor (enable==HIGH)
+  if(tiny85.available()>0)
+  {
+  //leo el mensaje y lo guardo en la variable velocidad
+    int velocidad=tiny85.read();
+    //escribo por el serial para que lo pueda leer desde la pc, recibiendolo pyhton
+    tiny85.write(velocidad);
+    //si velocidad es igual a 1200, apago el motor
+    if(velocidad==1200)
     {
-    valores[index] = atoi(token); //guardo el token en el array
-    token = strtok(NULL, ",");
-    index++;
+      digitalWrite(enable,HIGH);
     }
+    else:
+    {
+      digitalWrite(enable,LOW);
+      digitalWrite(enable,HIGH);
+      delay(1000);
+      digitalWrite(enable,LOW);
+    }
+
+  }
 
   delayHigh=1000; //delay de alta en uSegundos
   delayLow=1000;  //delay de baja en uSegundos
-  pulso=500; //pulso en miliSegundos
+  pulso=0; //pulso en miliSegundos
   movimientoMotor();
 }
       
