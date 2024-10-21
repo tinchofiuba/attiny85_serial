@@ -1,0 +1,23 @@
+El motor por pasos Nema 17 tiene 200 pasos.
+Se tiene que poder registrar el angulo y poder relacionar el angulo con la señal emitida por UWB.
+Para poder analizar mejor la señal de UWB se debe conocer la distancia entre el objeto y la antena, distancia que deberá
+ser medida manualmente, o de la forma que corresponda.
+
+La idea es comunicar el attiny con un conversor de TTL a USB y poder desde enviar/recibir ordenes desde una PC.
+
+1- Inicialmente se debe establecer la comunicación serial para poder seguir con el Scaneo.
+2- Luego se debe comenzar el movimiento del motor desde el plugin, enviando una señal por Serial desde la Pc hacia el Arduino.
+3- Una vez recibida la señal de marcha el motor dará un paso.
+4- Luego de dar el paso el arduino enviará por Serial una señal hacia la PC para que se emita un pulso de UWB.
+5- Una vez que la antena UWB reciba la señal deberá guardar la información y enviar al Arduino una señal para que pueda reiniciar
+   el ciclo desde el paso 2.
+6-Una vez finalizado el proceso de scaneo el motor debe detenerse y la PC deberá recibir un mensaje de forma tal de reiniciar la 
+  GUI del plugin
+
+pines disponibles:
+El Attiny 85 tiene 8 pines de los cuales 3 no son utiles (5V,Gnd y RST) dejando solo 5 pines utiles.
+La comunicacón serial necesita 2 pines, dejando solo 3 para lo que resta.
+El motor necesita 1 pin para poder generar los pasos, 1 pin para poder habilitar/deshabilitar la energización de las bobinas. 
+La dirección será seteada por un jumper que normalmente va a estar conectado a tierra con una resistencia  pulldown.
+El jumper seteara al pin con tensión, inviertiendo la dirección.
+El pin debería quedar a disposición con un par de 5v y Gnd para utilizarse para lo que fuese.
